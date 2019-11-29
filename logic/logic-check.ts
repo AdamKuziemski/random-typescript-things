@@ -5,23 +5,23 @@ const parameterLength = (callbacks: Function[]): number => Math.max(...callbacks
 const hasIdenticalValues = (comparedValues: any[]): boolean => new Set(comparedValues).size === 1;
 
 const generateTruthTable = (n: number): boolean[][] => Array.from(Array(2 ** n)).map(
-    (_, i) => Array.from(Array(n)).map((_, j) => !!(i & (2 ** j)))
+  (_, i) => Array.from(Array(n)).map((_, j) => !!(i & (2 ** j)))
 );
 const isTheSameReasoning = (predicates: Predicate[]): boolean => generateTruthTable(parameterLength(predicates))
-    .every((propositionalVariables: boolean[]) => hasIdenticalValues(predicates.map(predicate => predicate(...propositionalVariables))))
+  .every((propositionalVariables: boolean[]) => hasIdenticalValues(predicates.map(predicate => predicate(...propositionalVariables))))
 
 // De Morgan's laws
 isTheSameReasoning([
-    (p, q) => !(p || q),
-    (p, q) => !p && !q
+  (p, q) => !(p || q),
+  (p, q) => !p && !q
 ]);
 
 isTheSameReasoning([
-    (p, q) => !(p && q),
-    (p, q) => !p || !q
+  (p, q) => !(p && q),
+  (p, q) => !p || !q
 ]);
 
 isTheSameReasoning([
-    (p, q, r) => (p && !q) || (!p && !r),
-    (p, q, r) => p ? !q : !r
+  (p, q, r) => (p && !q) || (!p && !r),
+  (p, q, r) => p ? !q : !r
 ]);
