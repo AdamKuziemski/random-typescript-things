@@ -10,6 +10,17 @@ const generateTruthTable = (n: number): boolean[][] => Array.from(Array(2 ** n))
 const isTheSameReasoning = (predicates: Predicate[]): boolean => generateTruthTable(parameterLength(predicates))
     .every((propositionalVariables: boolean[]) => hasIdenticalValues(predicates.map(predicate => predicate(...propositionalVariables))))
 
+// De Morgan's laws
+isTheSameReasoning([
+    (p, q) => !(p || q),
+    (p, q) => !p && !q
+]);
+
+isTheSameReasoning([
+    (p, q) => !(p && q),
+    (p, q) => !p || !q
+]);
+
 isTheSameReasoning([
     (p, q, r) => (p && !q) || (!p && !r),
     (p, q, r) => p ? !q : !r
