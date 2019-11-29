@@ -1,35 +1,24 @@
-const longestSubsequence = (s1: string, s2: string) => {
+const longestSubsequence = (s1: string, s2: string): string => {
   if (s1 === '' || s2 === '') {
     return '';
   }
 
-  const allSubs = generateAllCommonSubsequences(s1, s2);
-  if (allSubs === []) {
-    return '';
-  }
-
-  const longestIndex = allSubs.reduce((longest, current, index) => current.length > allSubs[longest] ? index : longest, 0);
-  return allSubs[longestIndex];
+  return generateAllCommonSubsequences(s1, s2).sort((a, b) => b.length - a.length)[0] || '';
 }
 
-const generateAllCommonSubsequences = (s1: string, s2: string) => {
-  const subs = [];
-  Array.from(s1).forEach((___, index) => {
-    const generatedSub = commonSubsequence(s1.substr(index), s2);
-    if (generatedSub !== '') {
-      subs.push(generatedSub);
-    }
-  });
-  return subs;
+const generateAllCommonSubsequences = (s1: string, s2: string): string[] => {
+  return Array.from(s1)
+    .map((_, index) => commonSubsequence(s1.substr(index), s2))
+    .filter(subsequence => subsequence !== '');
 }
 
-const commonSubsequence = (s1: string, s2: string) => {
+const commonSubsequence = (s1: string, s2: string): string => {
   return Array.from(s1).map((char, index) => s2.indexOf(char, index) !== -1 ? char : '').join('');
 }
 
-console.log(longestSubsequence('abazdc', 'bacbad'));
-console.log(longestSubsequence('aggtab', 'gxtxayb'));
-console.log(longestSubsequence('aaaa', 'aa'));
-console.log(longestSubsequence('zuo', ''));
-console.log(longestSubsequence('abba', 'abcaba'));
-console.log(longestSubsequence('abababab', 'bbbbcccc'));
+console.log(longestSubsequence('abazdc', 'bacbad')); // abad
+console.log(longestSubsequence('aggtab', 'gxtxayb')); // gtab
+console.log(longestSubsequence('aaaa', 'aa')); // aa
+console.log(longestSubsequence('zuo', '')); // ''
+console.log(longestSubsequence('abba', 'abcaba')); // abba
+console.log(longestSubsequence('abababab', 'bbbbcccc')); // bb
