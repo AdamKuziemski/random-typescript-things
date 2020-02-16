@@ -7,8 +7,13 @@ const hasIdenticalValues = (comparedValues: any[]): boolean => new Set(comparedV
 const generateTruthTable = (n: number): boolean[][] => Array.from(Array(2 ** n)).map(
   (_, i) => Array.from(Array(n)).map((_, j) => !!(i & (2 ** j)))
 );
+
+const forAllPredicates = (predicates: Predicate[], propositionalVariables: boolean[]) => predicates.map(
+  predicate => predicate(...propositionalVariables)
+);
+
 const isTheSameReasoning = (predicates: Predicate[]): boolean => generateTruthTable(parameterLength(predicates))
-  .every((propositionalVariables: boolean[]) => hasIdenticalValues(predicates.map(predicate => predicate(...propositionalVariables))))
+  .every((row: boolean[]) => hasIdenticalValues(forAllPredicates(predicates, row)));
 
 // De Morgan's laws
 isTheSameReasoning([
@@ -21,6 +26,7 @@ isTheSameReasoning([
   (p, q) => !p || !q
 ]);
 
+// another example
 isTheSameReasoning([
   (p, q, r) => (p && !q) || (!p && !r),
   (p, q, r) => p ? !q : !r
