@@ -26,8 +26,14 @@ isTheSameReasoning([
   (p, q) => !p || !q
 ]);
 
-// another example
+// real life examples
 isTheSameReasoning([
   (p, q, r) => (p && !q) || (!p && !r),
   (p, q, r) => p ? !q : !r
+]);
+
+isTheSameReasoning([
+  (p, q, r) => p && q ? r : true,
+  (p, q, r) => !(p && q) || r,
+  (p, q, r) => !p || !q || r // use De Morgan's law on the one above
 ]);
